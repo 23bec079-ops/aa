@@ -1,3 +1,49 @@
+# replace the check_files function in check_coverage.py
+
+def check_files(names, directory, extensions=(".pdb", ".pdbqt")):
+    present, missing = [], []
+    for name in names:
+        subdir = directory / name          # e.g. receptors/OR10A2/
+        # look for receptors/OR10A2/OR10A2.pdb  OR  OR10A2.pdbqt
+        found = any(
+            (subdir / f"{name}{ext}").exists() for ext in extensions
+        )
+        (present if found else missing).append(name)
+    return present, missing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset$ cat code.py
 import os
 import time
