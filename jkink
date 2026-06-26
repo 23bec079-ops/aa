@@ -1,10 +1,11 @@
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$ cat check_coverage.py
 # check_coverage.py
 import pandas as pd
 from pathlib import Path
 
 # ── config ────────────────────────────────────────────────
-LIGAND_CSV    = Path("ligands.csv")
-RECEPTOR_CSV  = Path("receptors.csv")
+LIGAND_CSV    = Path("ligands1.csv")
+RECEPTOR_CSV  = Path("receptors1.csv")
 LIGAND_DIR    = Path("ligands")
 RECEPTOR_DIR  = Path("receptors")
 
@@ -14,7 +15,7 @@ lig_names = pd.read_csv(LIGAND_CSV).iloc[:, 0].str.strip().tolist()
 rec_names = pd.read_csv(RECEPTOR_CSV).iloc[:, 0].str.strip().tolist()
 
 # ── check files on disk ───────────────────────────────────
-# checks both .pdb and .pdbqt so it works before and after conversion
+
 def check_files(names, directory, extensions=(".pdb", ".pdbqt")):
     present, missing = [], []
     for name in names:
@@ -22,8 +23,20 @@ def check_files(names, directory, extensions=(".pdb", ".pdbqt")):
         (present if found else missing).append(name)
     return present, missing
 
+# checks both .pdb and .pdbqt so it works before and after conversion
+def check_files_re(names, directory, extensions=(".pdb", ".pdbqt")):
+    present, missing = [], []
+    for name in names:
+        subdir = directory / name          # e.g. receptors/OR10A2/
+        # look for receptors/OR10A2/OR10A2.pdb  OR  OR10A2.pdbqt
+        found = any(
+            (subdir / f"{name}{ext}").exists() for ext in extensions
+        )
+        (present if found else missing).append(name)
+    return present, missing
+
 lig_present, lig_missing = check_files(lig_names,  LIGAND_DIR)
-rec_present, rec_missing = check_files(rec_names, RECEPTOR_DIR)
+rec_present, rec_missing = check_files_re(rec_names, RECEPTOR_DIR)
 
 # ── report ────────────────────────────────────────────────
 print(f"\n{'='*50}")
@@ -64,3 +77,32 @@ if len(bad_rec): print(f"❌ Receptors in xlsx not in CSV: {bad_rec}")
 if len(bad_lig): print(f"❌ Ligands in xlsx not in CSV:   {bad_lig}")
 if not len(bad_rec) and not len(bad_lig):
     print(f"✅ All {len(xl)} pairs reference valid names.")
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$ python check_coverage.py
+
+==================================================
+LIGANDS  : 108/108 found
+RECEPTORS: 93/93 found
+==================================================
+
+✅ All files present — safe to zip and upload.
+
+==================================================
+Checking input.xlsx pair validity...
+Traceback (most recent call last):
+  File "/home/dellwsl/test1/Automated-Molecular-Docking/dataset/batch1_docking/check_coverage.py", line 62, in <module>
+    xl = pd.read_excel("input.xlsx")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 481, in read_excel
+    io = ExcelFile(
+         ^^^^^^^^^^
+  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1604, in __init__
+    ext = inspect_excel_format(
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1452, in inspect_excel_format
+    with get_handle(
+         ^^^^^^^^^^^
+  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/common.py", line 939, in get_handle
+    handle = open(handle, ioargs.mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'input.xlsx'
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$
