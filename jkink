@@ -1,0 +1,66 @@
+# check_coverage.py
+import pandas as pd
+from pathlib import Path
+
+# ── config ────────────────────────────────────────────────
+LIGAND_CSV    = Path("ligands.csv")
+RECEPTOR_CSV  = Path("receptors.csv")
+LIGAND_DIR    = Path("ligands")
+RECEPTOR_DIR  = Path("receptors")
+
+# ── read CSVs ─────────────────────────────────────────────
+# adjust column names to match your actual CSV headers
+lig_names = pd.read_csv(LIGAND_CSV).iloc[:, 0].str.strip().tolist()
+rec_names = pd.read_csv(RECEPTOR_CSV).iloc[:, 0].str.strip().tolist()
+
+# ── check files on disk ───────────────────────────────────
+# checks both .pdb and .pdbqt so it works before and after conversion
+def check_files(names, directory, extensions=(".pdb", ".pdbqt")):
+    present, missing = [], []
+    for name in names:
+        found = any((directory / f"{name}{ext}").exists() for ext in extensions)
+        (present if found else missing).append(name)
+    return present, missing
+
+lig_present, lig_missing = check_files(lig_names,  LIGAND_DIR)
+rec_present, rec_missing = check_files(rec_names, RECEPTOR_DIR)
+
+# ── report ────────────────────────────────────────────────
+print(f"\n{'='*50}")
+print(f"LIGANDS  : {len(lig_present)}/{len(lig_names)} found")
+print(f"RECEPTORS: {len(rec_present)}/{len(rec_names)} found")
+print(f"{'='*50}")
+
+if lig_missing:
+    print(f"\n❌ Missing LIGAND files ({len(lig_missing)}):")
+    for name in lig_missing:
+        print(f"   {name}")
+
+if rec_missing:
+    print(f"\n❌ Missing RECEPTOR files ({len(rec_missing)}):")
+    for name in rec_missing:
+        print(f"   {name}")
+
+if not lig_missing and not rec_missing:
+    print("\n✅ All files present — safe to zip and upload.")
+
+# ── bonus: check input.xlsx pairs reference valid names ───
+print(f"\n{'='*50}")
+print("Checking input.xlsx pair validity...")
+xl = pd.read_excel("input.xlsx")
+print(f"Columns found: {xl.columns.tolist()}")
+
+# adjust these column names to match your xlsx
+REC_COL = xl.columns[0]   # first column = receptor name
+LIG_COL = xl.columns[1]   # second column = ligand name
+
+rec_set = set(rec_names)
+lig_set = set(lig_names)
+
+bad_rec = xl[~xl[REC_COL].isin(rec_set)][REC_COL].unique()
+bad_lig = xl[~xl[LIG_COL].isin(lig_set)][LIG_COL].unique()
+
+if len(bad_rec): print(f"❌ Receptors in xlsx not in CSV: {bad_rec}")
+if len(bad_lig): print(f"❌ Ligands in xlsx not in CSV:   {bad_lig}")
+if not len(bad_rec) and not len(bad_lig):
+    print(f"✅ All {len(xl)} pairs reference valid names.")
