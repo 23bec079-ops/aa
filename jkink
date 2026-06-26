@@ -86,23 +86,32 @@ RECEPTORS: 93/93 found
 
 ✅ All files present — safe to zip and upload.
 
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$ python check_coverage.py
+
+==================================================
+LIGANDS  : 108/108 found
+RECEPTORS: 93/93 found
+==================================================
+
+✅ All files present — safe to zip and upload.
+
 ==================================================
 Checking input.xlsx pair validity...
-Traceback (most recent call last):
-  File "/home/dellwsl/test1/Automated-Molecular-Docking/dataset/batch1_docking/check_coverage.py", line 62, in <module>
-    xl = pd.read_excel("input.xlsx")
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 481, in read_excel
-    io = ExcelFile(
-         ^^^^^^^^^^
-  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1604, in __init__
-    ext = inspect_excel_format(
-          ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1452, in inspect_excel_format
-    with get_handle(
-         ^^^^^^^^^^^
-  File "/home/dellwsl/test1/test1_env/lib/python3.12/site-packages/pandas/io/common.py", line 939, in get_handle
-    handle = open(handle, ioargs.mode)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'input.xlsx'
-((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$
+Columns found: ['Unnamed: 0', 'Receptor', 'Ligand']
+❌ Receptors in xlsx not in CSV: [    0     1     2 ... 10041 10042 10043]
+❌ Ligands in xlsx not in CSV:   <ArrowStringArray>
+[ 'OR10A3',  'OR10A4',  'OR10A5',  'OR10A6', 'OR10AG1',  'OR10G3',  'OR10G4',
+  'OR10G7',  'OR10H1',  'OR10H2',  'OR10H5',  'OR10J5',  'OR10X1',  'OR11A1',
+  'OR11H4',  'OR11H6',  'OR13C3', 'OR14A16',  'OR14A2',  'OR14J1',   'OR1A1',
+   'OR1A2',   'OR1B1',   'OR1C1',   'OR1E1',   'OR1G1',   'OR1L8',   'OR1N1',
+   'OR1N2',   'OR1S2',  'OR2A25',  'OR2AG2',  'OR2AT4',  'OR2B11',   'OR2C1',
+   'OR2F1',   'OR2J1',   'OR2J2',   'OR2J3',   'OR2K2',   'OR2M2',   'OR2M3',
+   'OR2M7',   'OR2S2',   'OR2T1',   'OR2T6',  'OR2T11',   'OR2W1',   'OR3A1',
+  'OR4C12',   'OR4C3',   'OR4D2',   'OR4D6',  'OR4F15',  'OR4F17',   'OR4L1',
+   'OR4N4',   'OR4Q3',   'OR4X2',  'OR51B4',  'OR51B5',  'OR51B6',  'OR51D1',
+  'OR51E1',  'OR51E2',  'OR51F1',  'OR51G2',  'OR51L1',  'OR52A5',  'OR52B6',
+  'OR52D1',  'OR52E2',  'OR52M1',  'OR52N4',  'OR56A1',  'OR56A4',  'OR5AL1',
+  'OR5AN1',   'OR5K1',   'OR5K4',   'OR5P3',   'OR6P1',  'OR7A17',   'OR7C1',
+   'OR7D4',   'OR7G2',   'OR8B3',   'OR8D1',   'OR8D2',   'OR8K3',   'OR8U8',
+   'OR9A2',   'OR9G1']
+Length: 93, dtype: str
