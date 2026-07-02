@@ -1,45 +1,43 @@
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ time python code.py
+Traceback (most recent call last):
+  File "/home/divyanshub.chci.iitmandi/Docking_Batch1/batch1_docking/code.py", line 586, in <module>
+    main()
+  File "/home/divyanshub.chci.iitmandi/Docking_Batch1/batch1_docking/code.py", line 320, in main
+    df = pd.read_excel(EXCEL_FILE)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 495, in read_excel
+    io = ExcelFile(
+         ^^^^^^^^^^
+  File "/home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1550, in __init__
+    ext = inspect_excel_format(
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 1402, in inspect_excel_format
+    with get_handle(
+         ^^^^^^^^^^^
+  File "/home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages/pandas/io/common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'input_chunks/0000_*.xlsx'
+
+real    0m1.220s
+user    0m0.679s
+sys     0m0.321s
 (docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ ls
 REAdme.txt         code.py      input.csv  input.xlsx    ligands      myenv    receptors      run_docking.sh
 check_coverage.py  finalize.sh  input.py   input_chunks  ligands.csv  outputs  receptors.csv  split_input.py
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ module load vina/1.2.3
-Run the following command
-
-source /home/apps/spack/share/spack/setup-env.sh
-Run the following command
-
-source /home/apps/spack/share/spack/setup-env.sh
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ which vina
-/home/apps/spack/opt/spack/linux-centos7-cascadelake/gcc-12.2.0/autodock-vina-1.2.3-oxrf2g524v4hdcbvr2kljdfuwgfiv6wn/bin/vina
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ vina --version
-AutoDock Vina v1.2.3
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ export DOCK_INPUT_XLSX=input_chunks/0000_*.xlsx
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ export VINA_PATH=$(which vina)
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ export RUN_ORGANIZER=0
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ time python code.py
-Traceback (most recent call last):
-  File "/home/divyanshub.chci.iitmandi/Docking_Batch1/batch1_docking/code.py", line 3, in <module>
-    import requests
-ModuleNotFoundError: No module named 'requests'
-
-real    0m0.055s
-user    0m0.040s
-sys     0m0.012s
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ pip install pandas numpy requests biopython beautifulsoup4 selenium openpyxl xlswriter
-Requirement already satisfied: pandas in /home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages (2.3.2)
-Requirement already satisfied: numpy in /home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages (2.0.1)
-Collecting requests
-  Using cached requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
-Collecting biopython
-  Using cached biopython-1.87-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
-Collecting beautifulsoup4
-  Using cached beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
-Collecting selenium
-  Using cached selenium-4.45.0-py3-none-any.whl.metadata (7.4 kB)
-Requirement already satisfied: openpyxl in /home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages (3.1.5)
-ERROR: Could not find a version that satisfies the requirement xlswriter (from versions: none)
-ERROR: No matching distribution found for xlswriter
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ python -c "import os, time, requests, subprocess, glob, shutil, pandas, numpy, Bio, bs4, selenium; print('all imports ok')"
-Traceback (most recent call last):
-  File "<string>", line 1, in <module>
-ModuleNotFoundError: No module named 'requests'
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ ls input_chunks/
+0000_OR10A2.xlsx   0014_OR11A1.xlsx   0028_OR1N1.xlsx   0042_OR2M3.xlsx   0056_OR4L1.xlsx   0070_OR52B6.xlsx  0084_OR7C1.xlsx
+0001_OR10A3.xlsx   0015_OR11H4.xlsx   0029_OR1N2.xlsx   0043_OR2M7.xlsx   0057_OR4N4.xlsx   0071_OR52D1.xlsx  0085_OR7D4.xlsx
+0002_OR10A4.xlsx   0016_OR11H6.xlsx   0030_OR1S2.xlsx   0044_OR2S2.xlsx   0058_OR4Q3.xlsx   0072_OR52E2.xlsx  0086_OR7G2.xlsx
+0003_OR10A5.xlsx   0017_OR13C3.xlsx   0031_OR2A25.xlsx  0045_OR2T1.xlsx   0059_OR4X2.xlsx   0073_OR52M1.xlsx  0087_OR8B3.xlsx
+0004_OR10A6.xlsx   0018_OR14A16.xlsx  0032_OR2AG2.xlsx  0046_OR2T6.xlsx   0060_OR51B4.xlsx  0074_OR52N4.xlsx  0088_OR8D1.xlsx
+0005_OR10AG1.xlsx  0019_OR14A2.xlsx   0033_OR2AT4.xlsx  0047_OR2T11.xlsx  0061_OR51B5.xlsx  0075_OR56A1.xlsx  0089_OR8D2.xlsx
+0006_OR10G3.xlsx   0020_OR14J1.xlsx   0034_OR2B11.xlsx  0048_OR2W1.xlsx   0062_OR51B6.xlsx  0076_OR56A4.xlsx  0090_OR8K3.xlsx
+0007_OR10G4.xlsx   0021_OR1A1.xlsx    0035_OR2C1.xlsx   0049_OR3A1.xlsx   0063_OR51D1.xlsx  0077_OR5AL1.xlsx  0091_OR8U8.xlsx
+0008_OR10G7.xlsx   0022_OR1A2.xlsx    0036_OR2F1.xlsx   0050_OR4C12.xlsx  0064_OR51E1.xlsx  0078_OR5AN1.xlsx  0092_OR9A2.xlsx
+0009_OR10H1.xlsx   0023_OR1B1.xlsx    0037_OR2J1.xlsx   0051_OR4C3.xlsx   0065_OR51E2.xlsx  0079_OR5K1.xlsx   0093_OR9G1.xlsx
+0010_OR10H2.xlsx   0024_OR1C1.xlsx    0038_OR2J2.xlsx   0052_OR4D2.xlsx   0066_OR51F1.xlsx  0080_OR5K4.xlsx   manifest.txt
+0011_OR10H5.xlsx   0025_OR1E1.xlsx    0039_OR2J3.xlsx   0053_OR4D6.xlsx   0067_OR51G2.xlsx  0081_OR5P3.xlsx
+0012_OR10J5.xlsx   0026_OR1G1.xlsx    0040_OR2K2.xlsx   0054_OR4F15.xlsx  0068_OR51L1.xlsx  0082_OR6P1.xlsx
+0013_OR10X1.xlsx   0027_OR1L8.xlsx    0041_OR2M2.xlsx   0055_OR4F17.xlsx  0069_OR52A5.xlsx  0083_OR7A17.xlsx
 (docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$
