@@ -1,0 +1,59 @@
+#!/bin/bash
+# =========================================================
+# run_docking.sh — SLURM array job for batch1_docking.
+# One array task = one receptor's chunk file (all its ligand pairs).
+#
+# BEFORE SUBMITTING:
+#   1. Apply the 4 edits in code_py_patch_instructions.txt to code.py
+#   2. Run:  python split_input.py
+#      and note the printed receptor count N
+#   3. Edit #SBATCH --array=0-<N-1> below to match
+#   4. Edit VINA_PATH / OBABEL_PATH exports below to your actual
+#      install locations on PARAM Himalaya (see README)
+#
+# Usage:  sbatch run_docking.sh
+# =========================================================
+
+#SBATCH --job-name=batch1_dock
+#SBATCH --partition=standard
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=4
+#SBATCH --time=06:00:00
+#SBATCH --array=0-93
+#SBATCH --output=logs/dock_%A_%a.out
+#SBATCH --error=logs/dock_%A_%a.err
+
+set -euo pipefail
+mkdir -p logs
+
+echo "SLURM_ARRAY_JOB_ID=$SLURM_ARRAY_JOB_ID  TASK=$SLURM_ARRAY_TASK_ID"
+echo "Node: $(hostname)"
+
+# --- Environment -----------------------------------------
+module load DL-Conda_3.7
+eval "$(conda shell.bash hook)"
+conda activate docking
+
+module load vina/1.2.3
+
+export VINA_PATH="$(which vina)"
+export OBABEL_PATH="$(which obabel 2>/dev/null || echo /usr/bin/obabel)"
+                # OBABEL_PATH is only used if any receptor/ligand pdbqt
+                # is missing; should be a no-op in your case since
+                # check_coverage.py already confirmed everything is present
+
+cd "$SLURM_SUBMIT_DIR"
+
+# --- Pick this task's chunk file from the manifest --------
+CHUNK_FILE=$(sed -n "$((SLURM_ARRAY_TASK_ID + 1))p" input_chunks/manifest.txt)
+if [ -z "$CHUNK_FILE" ]; then
+    echo "No chunk file for task id $SLURM_ARRAY_TASK_ID (check manifest.txt line count)" >&2
+    exit 1
+fi
+echo "Docking chunk: $CHUNK_FILE"
+
+export DOCK_INPUT_XLSX="$CHUNK_FILE"
+export RUN_ORGANIZER=0     # never merge inside an array task
+
+python code.py
