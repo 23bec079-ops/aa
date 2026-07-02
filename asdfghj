@@ -1,0 +1,107 @@
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$ cat input.py
+import pandas as pd
+from itertools import product
+
+# Read files
+receptors = pd.read_csv("receptors.csv", header=None)
+ligands = pd.read_csv("ligands.csv", header=None)
+
+# First column assumed to contain names
+receptor_list = receptors.iloc[:, 0].dropna().astype(str).unique()
+ligand_list = ligands.iloc[:, 0].dropna().astype(str).unique()
+
+#Drop headers as a pair
+receptor_list = [r for r in receptor_list if r != "Receptor"]
+ligand_list = [l for l in ligand_list if l != "Ligand"]
+receptor_list = [r for r in receptor_list if r != "RECEPTOR"]
+ligand_list = [l for l in ligand_list if l != "LIGAND"]
+
+# Generate all combinations
+pairs = pd.DataFrame(
+    product(receptor_list, ligand_list),
+    columns=["Receptor", "Ligand"]
+)
+
+#Save
+pairs.to_csv('input.csv', index=False)
+pd.read_csv('input.csv').to_excel('input.xlsx')
+
+#Display Summary
+print(pairs.shape)
+print(f"Receptors: {len(receptor_list)}")
+print(f"Ligands: {len(ligand_list)}")
+print(f"Total pairs: {len(pairs)}")
+print("Saved as input.xlsx and input.csv")
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$ head -50 code.py
+import os
+import time
+import requests
+import subprocess
+import glob
+import shutil
+
+import pandas as pd
+import numpy as np
+
+from Bio import Entrez
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
+
+from pathlib import Path
+# ====================== GLOBAL CONFIGURATION ======================
+BASE_DIR = Path(__file__).resolve().parent
+
+EXCEL_FILE = BASE_DIR/"input.xlsx"
+VINA_PATH = "/usr/bin/vina"
+OBABEL_PATH = "/usr/bin/obabel"
+CHROME_DRIVER_PATH = "/usr/bin/chromedriver"
+
+EMAIL = "atirathpal@gmail.com"
+Entrez.email = EMAIL
+
+# Docking Parameters
+DOCKING_SEEDS = [100, 200, 300]
+NUM_POSES = 10
+EXHAUSTIVENESS = 16
+ENERGY_RANGE = 4
+
+# Global Directories
+BASE_DIR = os.getcwd()
+RECEPTOR_WH = os.path.join(BASE_DIR, "receptors")
+LIGAND_WH = os.path.join(BASE_DIR, "ligands")
+OUTPUT_ROOT = os.path.join(BASE_DIR, "outputs")
+
+for d in [RECEPTOR_WH, LIGAND_WH, OUTPUT_ROOT]:
+    os.makedirs(d, exist_ok=True)
+# =================================================================
+
+def assess_model(receptor_name, pdb_file):
+    """Swiss-Model Structure Assessment (Step_02 style navigation)."""
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$ head -10 receptors.csv
+
+OR10A2
+OR10A3
+OR10A4
+OR10A5
+OR10A6
+OR10AG1
+OR10G3
+OR10G4
+OR10G7
+((test1_env) ) dellwsl@DESKTOP-M2LSKB8:~/test1/Automated-Molecular-Docking/dataset/batch1_docking$ head -10 ligands.csv
+
+(-)-menthol
+(+)-carvone
+(+)-menthol
+(R)-limonene
+1-Hexanol
+1-octanethiol
+2-decenal
+allyl caproate
+allyl disulfide
