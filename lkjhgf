@@ -1,12 +1,19 @@
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ module load vina/1.2.3
-Run the following command
-
-source /home/apps/spack/share/spack/setup-env.sh
-Run the following command
-
-source /home/apps/spack/share/spack/setup-env.sh
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ which vina
-/home/apps/spack/opt/spack/linux-centos7-cascadelake/gcc-12.2.0/autodock-vina-1.2.3-oxrf2g524v4hdcbvr2kljdfuwgfiv6wn/bin/vina
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ vina --version
-AutoDock Vina v1.2.3
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ pip install pandas numpy requests biopython beautifulsoup4 selenium openpyxl xlswriter
+Requirement already satisfied: pandas in /home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages (2.3.2)
+Requirement already satisfied: numpy in /home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages (2.0.1)
+Collecting requests
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting biopython
+  Downloading biopython-1.87-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+Collecting beautifulsoup4
+  Downloading beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
+Collecting selenium
+  Downloading selenium-4.45.0-py3-none-any.whl.metadata (7.4 kB)
+Requirement already satisfied: openpyxl in /home/divyanshub.chci.iitmandi/.conda/envs/docking/lib/python3.12/site-packages (3.1.5)
+ERROR: Could not find a version that satisfies the requirement xlswriter (from versions: none)
+ERROR: No matching distribution found for xlswriter
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ python -c "import os, time, requests, subprocess, glob, shutil, pandas, numpy, Bio, bs4, selenium; print('all imports ok')"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'requests'
 (docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$
