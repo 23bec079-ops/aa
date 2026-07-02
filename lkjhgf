@@ -1,34 +1,12 @@
-(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ module avail
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ module load vina/1.2.3
+Run the following command
 
-------------------------------------------------------- /opt/ohpc/pub/modulefiles --------------------------------------------------------
-   Ansys-Fluent/Ansys-Fluent        gcc/12.2.0                        oneapi/clck/latest                   oneapi/mpi/latest
-   Chimera/2022-11.21               gcc/13.1.0                 (D)    oneapi/clck/2021.6.0          (D)    oneapi/mpi/2021.6.0     (D)
-   DL-Conda_3.7              (L)    gnu8/8.3.0                        oneapi/compiler-rt/latest            oneapi/oclfpga/latest
-   Desmond/v6.9                     gnu8/11.2.0                (D)    oneapi/compiler-rt/2022.1.0   (D)    oneapi/oclfpga/2022.1.0 (D)
-   EasyBuild/3.9.4                  hdf5/1.12.3                       oneapi/compiler-rt32/latest          oneapi/tbb/latest
-   Horovod-Python/3.7               hpcx-2.9.0/hpcx-debug-ompi        oneapi/compiler-rt32/2022.1.0 (D)    oneapi/tbb/2021.6.0     (D)
-   IntelPython/3.7                  hpcx-2.9.0/hpcx-debug             oneapi/compiler/latest               oneapi/tbb32/latest
-   MATLAB/r2021a                    hpcx-2.9.0/hpcx-mt-ompi           oneapi/compiler/2022.1.0      (D)    oneapi/tbb32/2021.6.0   (D)
-   MSCC/amdkiit                     hpcx-2.9.0/hpcx-mt                oneapi/compiler32/latest             openmpi/4.1.4
-   MSCC/ann-ci                      hpcx-2.9.0/hpcx-ompi              oneapi/compiler32/2022.1.0    (D)    orca/4.2.1
-   MSCC/litesoph                    hpcx-2.9.0/hpcx-prof-ompi         oneapi/debugger/latest               orca/5.0.4
-   MSCC/mu2mech              (D)    hpcx-2.9.0/hpcx-prof              oneapi/debugger/2021.6.0      (D)    orca/6.0.1              (D)
-   Rapids/22.08                     hpcx-2.9.0/hpcx-stack             oneapi/dev-utilities/latest          papi/5.7.0
-   apptainer/1.2.5                  hpcx-2.9.0/hpcx            (D)    oneapi/dev-utilities/2021.6.0 (D)    prun/1.3
-   autotools                        hwloc/2.1.0                       oneapi/icc/latest                    pyxaid/pyxaid-code
-   charliecloud/0.11                julia/1.11.6                      oneapi/icc/2022.1.0           (D)    silvaco/tcad
-   clustershell/1.8.2               llvm5/5.0.1                       oneapi/icc32/latest                  singularity/3.4.1
-   cmake/3.15.4                     mhc_i/mhc1                        oneapi/icc32/2022.1.0         (D)    spack/0.20.0
-   cmake/3.22.1              (D)    mhc_ii/mhc2                       oneapi/init_opencl/latest            star/2.7
-   compiler/intel/2018_4            mom6/v_6                          oneapi/init_opencl/2022.1.0   (D)    temp/temp
-   cuda/10.1                        mpi/openmpi-cuda                  oneapi/inspector/latest              valgrind/3.15.0
-   exciting-neon/v21                networkx/python_module            oneapi/inspector/2022.1.0     (D)    vina/1.2.3
-   fftw_intel/3.3.10                ntop/5.7.2                        oneapi/itac/latest
-   gaussian/g16                     nvhpc/23.11                       oneapi/itac/2021.6.0          (D)
+source /home/apps/spack/share/spack/setup-env.sh
+Run the following command
 
-  Where:
-   D:  Default Module
-   L:  Module is loaded
-
-Use "module spider" to find all possible modules.
-Use "module keyword key1 key2 ..." to search for all possible modules matching any of the "keys".
+source /home/apps/spack/share/spack/setup-env.sh
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ which vina
+/home/apps/spack/opt/spack/linux-centos7-cascadelake/gcc-12.2.0/autodock-vina-1.2.3-oxrf2g524v4hdcbvr2kljdfuwgfiv6wn/bin/vina
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$ vina --version
+AutoDock Vina v1.2.3
+(docking) [divyanshub.chci.iitmandi@login01 batch1_docking]$
